@@ -2,3 +2,6 @@ ParallelDesignPatterns/ParallelDesignPatterns/bin
 ParallelDesignPatterns/ParallelDesignPatterns/obj
 bin
 obj
+*.suo
+*.user
+_ReSharper.*/
