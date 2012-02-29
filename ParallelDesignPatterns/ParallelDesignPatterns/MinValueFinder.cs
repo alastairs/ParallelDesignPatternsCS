@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ParallelDesignPatterns
 {
     class MinValueFinder
     {
-        private Func<int, int> f;
+        private readonly Func<int, int> f;
 
         public MinValueFinder(Func<int, int> f)
         {
             this.f = f;
         }
 
-        internal int findMinimum(int a, int b)
+        internal int FindMinimum(int a, int b)
         {
-            throw new NotImplementedException();
+            int numberOfInputs = b - a + 1;
+            return Enumerable.Range(a, numberOfInputs).Select(f).Min();
         }
     }
 }
