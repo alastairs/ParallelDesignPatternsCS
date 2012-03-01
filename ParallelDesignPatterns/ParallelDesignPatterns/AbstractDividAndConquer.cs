@@ -1,33 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ParallelDesignPatterns
 {
-    abstract class AbstractDividAndConquer<Problem,Solution>
+    abstract class AbstractDividAndConquer<TProblem,TSolution>
     {
-        protected abstract Problem[] split(Problem p);
-        protected abstract Boolean isBaseCase(Problem p);
-        protected abstract Solution baseCaseSolve(Problem p);
-        protected abstract Solution merge(Solution[] subSolutions);
+        protected abstract TProblem[] Split(TProblem problem);
+        protected abstract Boolean IsBaseCase(TProblem problem);
+        protected abstract TSolution BaseCaseSolve(TProblem problem);
+        protected abstract TSolution Merge(TSolution[] subSolutions);
 
-        protected Solution solve(Problem p)
+        protected TSolution Solve(TProblem p)
         {
-            if (isBaseCase(p))
+            if (IsBaseCase(p))
             {
-                return baseCaseSolve(p);
+                return BaseCaseSolve(p);
             }
-            Problem[] subProblems = split(p);
-            Solution[] subSolutions = new Solution[subProblems.Length];
+
+            TProblem[] subProblems = Split(p);
+            var subSolutions = new TSolution[subProblems.Length];
+            
             int i = 0;
-            Parallel.ForEach<Problem>(subProblems, subProblem =>
+            Parallel.ForEach(subProblems, subProblem =>
             {
-                subSolutions[i++] = solve(subProblem);
+                subSolutions[i++] = Solve(subProblem);
             });
 
-            return merge(subSolutions);
+            return Merge(subSolutions);
         }
     }
 }
